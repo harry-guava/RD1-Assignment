@@ -1,0 +1,17 @@
+.head
+{
+    width:100%;
+    background-color: #943ca3;
+    color:#b8f0fc;
+    position: absolute;
+    top:0px;
+}
+.btn
+{
+    position: relative;
+    margin: 2px;
+    border:0.5px;
+    float: left;
+    top:100px;
+    
+}
