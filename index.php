@@ -1,31 +1,35 @@
 <?php
-//require("connect.php");
-require_once("json.php");
-
+session_start();
+require_once "json.php";
 $sqlc = "select countries from forecast ";
-$resultc =mysqli_query($link,$sqlc);
+$resultc = mysqli_query($link, $sqlc);
 $check = mysqli_fetch_assoc($resultc);
+
+$new_str = iconv("BIG5", "UTF-8", "BIG5 文字");
+echo $new_str;
+
 
 foreach ($jslink['records']['location'] as $b) {
     $country = $b['locationName'];
-    if($check["countries"]=="")
-    {
-    $sql = "insert into forecast (countries) values ('$country')";
-    //echo $sql."<br>";
-    $ins =mysqli_query($link,$sql);
-    }
-    //echo $sql."<br>";
-   // mysqli_query($link,$sql);
-    // echo "天氣現象:(" . $b['weatherElement'][0]['elementName'] . ")" . "<br>"; //wx天氣現象
-    // for ($i = 0; $i < 3; $i++) //36個小時天氣預報
-    // {
-    //     echo "StartTime:" . $b['weatherElement'][0]['time'][$i]['startTime'] . "<br>"; //測量時間始
-    //     echo "EndTime:" . $b['weatherElement'][0]['time'][$i]['endTime'] . "<br>"; //測量時間末
-    //     echo $b['weatherElement'][0]['time'][$i]['parameter']['parameterName'] . "<br>"; //氣象狀態
-    // }
+    if ($check["countries"] == '請選擇縣市') {
+        $sql = "insert into forecast (countries) values ('$country')";
+    //     //echo $sql."<br>";
+          $ins = mysqli_query($link, $sql);
+     }
 }
-$sql2="select * from forecast";
-$result= mysqli_query($link,$sql2);
+$sql2 = "select * from forecast";
+$result = mysqli_query($link, $sql2);
+$res =  "";
+//echo $_POST['selcountry'];
+$selectvalue = isset($_POST['selcountry'])? $_POST['selcountry'] : '';
+//判斷下拉式是否有選擇
+//echo $_POST['selcountry'];
+echo $selectvalue;
+$_SESSION["selectId"] = $selectvalue;
+if(isset($_POST['selcountry']))
+{
+    header("Location: countries.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,19 +42,29 @@ $result= mysqli_query($link,$sql2);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel=stylesheet href="index.css">
-    <style>
-        
-    </style>
+    <script>
+    if ( window.history.replaceState )
+    {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 </head>
 <body>
+
 <div class="head">
     <h1>母湯氣象局</h1>
     <p style="color:black">點選想要查詢的縣市</p>
 </div>
-  <form>
-  <?php while($row= mysqli_fetch_assoc($result)) {?>
-    <a href="countries.php?id=<?=$row["countryId"]?>" class="btn btn-outline-info"><?= $row["countries"]?></a>
+<div class ="sel">
+  <form  method="post">
+  <select name = "selcountry" onchange="submit()">
+  <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+
+  <option value= "<?=$row["countryId"]?>"<?= $selectvalue == $row['countryId'] ? 'selected' : ''?>><?=$row["countries"]?></option>
   <?php }?>
+  </select>
   </form>
+</div>
+<div id="result"></div>
 </body>
 </html>

@@ -6,12 +6,9 @@
     position: absolute;
     top:0px;
 }
-.btn
+.sel
 {
-    position: relative;
-    margin: 2px;
-    border:0.5px;
-    float: left;
-    top:100px;
+    position: absolute;
+    top:200px;
     
 }
