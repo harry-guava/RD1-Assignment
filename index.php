@@ -1,22 +1,8 @@
 <?php
 session_start();
-require_once "json.php";
-$sqlc = "select countries from forecast ";
-$resultc = mysqli_query($link, $sqlc);
-$check = mysqli_fetch_assoc($resultc);
+//require_once "json.php";
+require("connect.php");
 
-$new_str = iconv("BIG5", "UTF-8", "BIG5 文字");
-echo $new_str;
-
-
-foreach ($jslink['records']['location'] as $b) {
-    $country = $b['locationName'];
-    if ($check["countries"] == '請選擇縣市') {
-        $sql = "insert into forecast (countries) values ('$country')";
-    //     //echo $sql."<br>";
-          $ins = mysqli_query($link, $sql);
-     }
-}
 $sql2 = "select * from forecast";
 $result = mysqli_query($link, $sql2);
 $res =  "";
@@ -54,7 +40,7 @@ if(isset($_POST['selcountry']))
 <div class="head">
     <h1>母湯氣象局</h1>
     <p style="color:black">點選想要查詢的縣市</p>
-</div>
+</div> 
 <div class ="sel">
   <form  method="post">
   <select name = "selcountry" onchange="submit()">
