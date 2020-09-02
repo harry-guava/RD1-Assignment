@@ -25,7 +25,7 @@ $check = mysqli_num_rows($result);
 
 $e = array();
 $p = array();
-echo $check . "<br>";
+//echo $check . "<br>";
 foreach ($jslink2['records']['location'] as $b) {
     //echo $b['locationName'];
     for ($i = 0; $i < 5; $i++) //36個小時天氣預報
@@ -42,3 +42,17 @@ if ($check == 0) {
 }
 
 mysqli_query($link, $sqlin);
+$sql3= <<< selname
+    select Wx,PoP,MaxT,MinT,CI,f.countries from liveweather l join forecast f on (l.countryId = f.countryId) where f.countryId = $countryId
+    selname;
+    $result2= mysqli_query($link,$sql3);
+    $selcountry = mysqli_fetch_assoc($result2);
+    $_SESSION["name"] = $selcountry["countries"];
+    $_SESSION["Wx"]  = $selcountry["Wx"];
+    $_SESSION["PoP"]  = $selcountry["PoP"];
+    $_SESSION["MinT"]  = $selcountry["MinT"];
+    $_SESSION["MaxT"]  = $selcountry["MaxT"];
+    $_SESSION["CI"]  = $selcountry["CI"];
+    echo '<script>window.history.go(-1);</script>';
+
+?>

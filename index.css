@@ -1,14 +1,85 @@
 .head
 {
-    width:100%;
-    background-color: #943ca3;
-    color:#b8f0fc;
-    position: absolute;
+    color:#1ecae8;
     top:0px;
 }
 .sel
 {
     position: absolute;
-    top:200px;
-    
+    top: 150px;
+    width:33%;
 }
+.pic
+{
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    background-image: url("./image/index.jpeg");
+    background-position: center;
+    background-size: cover;
+    left:0px;
+}
+.selcol
+{
+    background-color:#69ff69;
+}
+.rowl1
+{
+    position: relative;
+    top:188px;
+    left:1%;
+    width:32%;
+}
+.rowl2
+{
+    position: relative;
+    top:-63px;
+    left:34.5%;
+    width:32%;
+}
+.rowl3
+{
+    position: relative;
+    top:-313px;
+    left:68%;
+    width:32%;
+}
+.cnname
+{
+    position: absolute;
+    font-size:30px;
+    top:5px;
+    left:10px;
+}
+.cnow
+{
+    position: absolute;
+    font-size:30px;
+    color:purple;
+    top:5px;
+    right:5px;
+}
+.cWx
+{
+    position: absolute;
+    font-size:20px;
+    color:#11a846;
+    top:60px;
+    left:10px;
+}
+.cCI
+{
+    position: absolute;
+    font-size:20px;
+    color:#b85f1f;
+    top:100px;
+    left:10px;
+}
+.cPoP
+{
+    position: absolute;
+    left:130px;
+    font-size:30px;
+    bottom: 30px;
+}
+
