@@ -13,14 +13,15 @@ $selectvalue = isset($_POST['selcountry']) ? $_POST['selcountry'] : '';
 //echo $selectvalue;
 $_SESSION["selectId"] = $selectvalue;
 if (isset($_POST['selcountry'])) {
-    header("Location: liveweather.php");
+    header("Location: Twoday.php");
+    //header("Location: liveweather.php");
     
 }
  
 $name = $_SESSION["name"];
 $Wx = $_SESSION["Wx"];
 $PoP = $_SESSION["PoP"];
-$Mint = $_SESSION["MinT"];
+$MinT = $_SESSION["MinT"];
 $MaxT = $_SESSION["MaxT"];
 $CI = $_SESSION["CI"];
 
@@ -73,6 +74,7 @@ $CI = $_SESSION["CI"];
     <p><br><p>
     <span class="cCI"><?= "舒適程度：".$CI?></span>
     <hr style="border:1px solid blue; width:100%">
+    <span class="cMT"><?=$MinT."˚C~".$MaxT."˚C"?></span>
     <span class="cPoP" style="color:<?php if($PoP>=70){echo "red";}else if($PoP<=30){echo "green";}elseif($PoP>30&&$PoP<=50){echo "blue";}else echo "yellow";?>">
     <?="降雨率".$PoP."%"?></span>
 </div>

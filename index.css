@@ -78,8 +78,17 @@
 .cPoP
 {
     position: absolute;
-    left:130px;
+    right:30px;
     font-size:30px;
     bottom: 30px;
+}
+.cMT
+{
+    position:absolute;
+    left:35px;
+    bottom:30px;
+    font-size:30px;
+    color:#44406b;
+    
 }
 

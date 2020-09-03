@@ -37,7 +37,7 @@ foreach ($jslink2['records']['location'] as $b) {
 if ($check == 0) {
     $sqlin = "insert into `liveweather` (countryId,`$e[0]`,`$e[1]`,`$e[2]`,`$e[3]`,`$e[4]`) values ($countryId,'$p[0]','$p[1]','$p[2]','$p[3]','$p[4]')";
 } else {
-    $sqlde = "update liveweather set $p[0]=$p[0],$p[1]=$p[1],$p[2]=$p[2],$p[3]=$p[3],$p[4]=$p[4] where countryId = $countryId";
+    $sqlin = "update liveweather set Wx='$p[0]',PoP=$p[1],MinT=$p[2],CI='$p[3]',MaxT=$p[4] where countryId = $countryId";
 
 }
 
@@ -54,5 +54,6 @@ $sql3= <<< selname
     $_SESSION["MaxT"]  = $selcountry["MaxT"];
     $_SESSION["CI"]  = $selcountry["CI"];
     echo '<script>window.history.go(-1);</script>';
+ 
 
 ?>
