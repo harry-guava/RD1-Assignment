@@ -21,9 +21,11 @@ create table twoday
 (
     countryId int,
     Wx varchar (10),
+    WxV int,
     T int,
     CI varchar(20),
-    `Time` date,
+    PoP int,
+    `Time` datetime,
     `date` date   
 );
 

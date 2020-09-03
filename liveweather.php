@@ -1,5 +1,6 @@
 <?php
 session_start();
+require("twoday.php");
 require "connect.php";
 $countryId = $_SESSION["selectId"];
 $sql = "select countries from forecast where countryId = $countryId";
