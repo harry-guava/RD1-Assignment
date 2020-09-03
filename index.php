@@ -41,6 +41,8 @@ while($rowac= mysqli_fetch_assoc($resultac))
     $AcWx[]= $rowac["Wx"];
     $AcPoP[]=$rowac["PoP"];
 }
+//溫度
+//$sqlT= "select T from twoday where DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)"
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -37,19 +37,20 @@ foreach ($jslink3['records']['locations'][0]['location'] as $b) {
         }
         // mysqli_query($link,$sql3);   
 }
-echo $weaPoP[0]."<br>";
-echo $weaPoP[1]."<br>";
-echo $weaPoP[2]."<br>";
-echo $weaPoP[3]."<br>";
-     $sqlu0 = "update twoday set PoP = $weaPoP[0] where (DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)) and (DATE_FORMAT(`Time`,'%H') < 12)";
-     $sqlu1 ="update twoday set PoP = $weaPoP[1] where (DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)) and (DATE_FORMAT(`Time`,'%H') >= 12)";
-     $sqlu2 = "update twoday set PoP = $weaPoP[2] where (DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 2 day)) and (DATE_FORMAT(`Time`,'%H') < 12)";
-     $sqlu3 = "update twoday set PoP = $weaPoP[3] where (DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 2 day)) and (DATE_FORMAT(`Time`,'%H') >= 12)";
+
+     $time1= "(DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)) and (DATE_FORMAT(`Time`,'%H') < 12)";
+     $time2= "(DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)) and (DATE_FORMAT(`Time`,'%H') >=12)";
+     $time3 = "(DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 2 day)) and (DATE_FORMAT(`Time`,'%H') < 12)";
+     $time4 = "(DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 2 day)) and (DATE_FORMAT(`Time`,'%H') >= 12)";
+     $sqlu0 = "update twoday set PoP = $weaPoP[0] where $time1";
+     $sqlu1 ="update twoday set PoP = $weaPoP[1] where $time2";
+     $sqlu2 = "update twoday set PoP = $weaPoP[2] where $time3";
+     $sqlu3 = "update twoday set PoP = $weaPoP[3] where $time4";
      mysqli_query($link,$sqlu0);
      mysqli_query($link,$sqlu1);
      mysqli_query($link,$sqlu2);
      mysqli_query($link,$sqlu3);
-
+     
 $sqld = "delete from twoday where (DATE_FORMAT(`Time`,'%Y-%m-%d') = `date`) or (DATE_FORMAT(`Time`,'%Y-%m-%d') = DATE_ADD(`date`,INTERVAL 3 day))" ;
 mysqli_query($link,$sqld);
 
