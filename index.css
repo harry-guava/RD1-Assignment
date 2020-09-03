@@ -21,7 +21,7 @@
 }
 .selcol
 {
-    background-color:#69ff69;
+    
 }
 .rowl1
 {
@@ -81,6 +81,20 @@
     right:30px;
     font-size:30px;
     bottom: 30px;
+}
+.cPoP2
+{
+    position: absolute;
+    right:30px;
+    font-size:25px;
+    bottom: 50px;
+}
+.cPoP3
+{
+    position: absolute;
+    right:30px;
+    font-size:25px;
+    bottom: 20px;
 }
 .cMT
 {

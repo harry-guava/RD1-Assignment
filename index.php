@@ -13,14 +13,19 @@ $selectvalue = isset($_POST['selcountry']) ? $_POST['selcountry'] : '';
 //echo $selectvalue;
 $_SESSION["selectId"] = $selectvalue;
 if (isset($_POST['selcountry'])) {
-    //header("Location: Twoday.php");
-    header("Location: liveweather.php");
+//header("Location: Twoday.php");
+ header("Location: liveweather.php");
     
 }
+$AT = $_SESSION["AT"];
+$tPoP = $_SESSION["tPoP"];
 //明天天氣
+$TomoPoP = $tPoP[0];
+$TomoPoP1 = $tPoP[1];
+$TomoAT= $AT[0];
+$TomoAT1= $AT[1];
 $TomoCI =  $_SESSION["tCI"];
 $TomoWx = $_SESSION["tWx"];
-$TomoPoP= $_SESSION["tPoP"];
 //
 $name = $_SESSION["name"];
 $Wx = $_SESSION["Wx"];
@@ -30,16 +35,18 @@ $MaxT = $_SESSION["MaxT"];
 $CI = $_SESSION["CI"];
 //
 //後天天氣
-$sqlac= "select CI,PoP,Wx,count(*) as count from `twoday` where Time=DATE_ADD(`date`,INTERVAL 2 day) GROUP by PoP,CI,Wx order by count desc limit 2";
+$sqlac= "select CI,Wx,count(*) as count from `twoday` where Time=DATE_ADD(`date`,INTERVAL 2 day) GROUP by CI,Wx order by count desc limit 2";
 $resultac= mysqli_query($link,$sqlac);
 $AcCI =array();
 $AcWx =array();
-$AcPoP =array();
+$AcPoP=$tPoP[2];
+$AcPoP1=$tPoP[3];
+$AcAT = $AT[2];
+$AcAT1 = $AT[3]; 
 while($rowac= mysqli_fetch_assoc($resultac))
 {
     $AcCI[]= $rowac["CI"];  
     $AcWx[]= $rowac["Wx"];
-    $AcPoP[]=$rowac["PoP"];
 }
 //溫度
 //$sqlT= "select T from twoday where DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)"
@@ -77,7 +84,7 @@ while($rowac= mysqli_fetch_assoc($resultac))
     <select class="form-control" name = "selcountry" onchange="submit()" style="color:#e6e33c;background-color:#216096;width:97%">
         <option value="" selected disabled >請選擇縣市</option>
         <?php while ($row = mysqli_fetch_assoc($result)) {?>
-        <option class="selcol" value= "<?=$row["countryId"]?>"<?=$selectvalue == $row['countryId'] ? 'selected' : ''?>><?=$row["countries"]?></option>
+        <option value= "<?=$row["countryId"]?>"<?=$selectvalue == $row['countryId'] ? 'selected' : ''?>><?=$row["countries"]?></option>
         <?php }?>
      </select>
   </form>
@@ -103,8 +110,10 @@ while($rowac= mysqli_fetch_assoc($resultac))
     <p><br><p>
     <span class="cCI"><?php if($TomoCI[1]!=""){ echo "舒適程度：".$TomoCI[0]."至".$TomoCI[1];}else{echo "舒適程度：".$TomoCI[0];}?></span>
     <hr style="border:1px solid blue; width:100%">
-    <span class="cPoP" style="color:<?php if($TomoPoP[0]>=70){echo "red";}else if($TomoPoP[0]<=30){echo "green";}elseif($TomoPoP[0]>30&&$TomoPoP[0]<=50){echo "blue";}else echo "yellow";?>">
-    <?="可能降雨率".$TomoPoP[0]."%"?></span>
+    <span class="cMT"><?=$TomoAT."˚C~".$TomoAT1."˚C"?></span>
+    <span class="cPoP2" style="color:<?php if($TomoPoP>=70){echo "red";}else if($TomoPoP<=30){echo "green";}elseif($TomoPoP>30&&$TomoPoP<=50){echo "blue";}else echo "yellow";?>">
+    <?="上午降雨率".$TomoPoP."%"?></span>
+    <span class="cPoP3"style="color:<?php if($TomoPoP1>=70){echo "red";}else if($TomoPoP1<=30){echo "green";}elseif($TomoPoP1>30&&$TomoPoP1<=50){echo "blue";}else echo "yellow";?>"><?= "下午降雨率".$TomoPoP1."%"?></span>
 </div>
 <div class= "row rowl3" style="background-color: #add2d9; min-height: 250px">
     <span class="cnname" ><?= $name?></span><span class="cnow">後天天氣</span>
@@ -113,8 +122,10 @@ while($rowac= mysqli_fetch_assoc($resultac))
     <p><br><p>
     <span class="cCI"><?php if($AcCI[1]!=""){ echo "舒適程度：".$AcCI[0]."至".$AcCI[1];}else{echo "舒適程度：".$AcCI[0];}?></span>
     <hr style="border:1px solid blue; width:100%">
-    <span class="cPoP" style="color:<?php if($AcPoP[0]>=70){echo "red";}else if($AcPoP[0]<=30){echo "green";}elseif($AcPoP[0]>30&&$AcPoP[0]<=50){echo "blue";}else echo "yellow";?>">
-    <?="可能降雨率".$AcPoP[0]."%"?></span>
+    <span class="cMT"><?=$AcAT."˚C~".$AcAT1."˚C"?></span>
+    <span class="cPoP2" style="color:<?php if($AcPoP>=70){echo "red";}else if($AcPoP<=30){echo "green";}elseif($AcPoP>30&&$AcPoP<=50){echo "blue";}else echo "yellow";?>">
+    <?="上午降雨率".$AcPoP."%"?></span>
+    <span class="cPoP3"style="color:<?php if($AcPoP1>=70){echo "red";}else if($AcPoP1<=30){echo "green";}elseif($AcPoP1>30&&$AcPoP1<=50){echo "blue";}else echo "yellow";?>"><?= "下午降雨率".$AcPoP1."%"?></span>
 </div>
 
 </body>

@@ -54,24 +54,36 @@ foreach ($jslink3['records']['locations'][0]['location'] as $b) {
 $sqld = "delete from twoday where (DATE_FORMAT(`Time`,'%Y-%m-%d') = `date`) or (DATE_FORMAT(`Time`,'%Y-%m-%d') = DATE_ADD(`date`,INTERVAL 3 day))" ;
 mysqli_query($link,$sqld);
 
-$sqlt= "select PoP,CI,Wx,count(*) as count from `twoday` where Time=DATE_ADD(`date`,INTERVAL 1 day) GROUP by PoP,CI,Wx order by count desc limit 2";
+$sqlt= "select CI,Wx,count(*) as count from `twoday` where Time=DATE_ADD(`date`,INTERVAL 1 day) GROUP by CI,Wx order by count desc limit 2";
 $resultt= mysqli_query($link,$sqlt);
 
+$sqltp= "select round(AVG(PoP),0) as rPoP,round(AVG(T),0) as AT from `twoday` where $time1 union all select round(AVG(PoP),0) as rPoP ,round(AVG(T),0) as AT from `twoday` where $time2 union all select round(AVG(PoP),0) as rPoP ,round(AVG(T),0) as AT from `twoday` where $time3 union all
+select round(AVG(PoP),0) as rPoP,round(AVG(T),0) as AT from `twoday` where $time4";
 
 $tPoP= array();
+$AT = array();
 $tCI = array();
 $tWx =array();
+$resPoP = mysqli_query($link,$sqltp);
+while($rowP = mysqli_fetch_assoc($resPoP))
+{
+   $tPoP[] = $rowP["rPoP"];
+   $AT[] = $rowP["AT"];
+}
 while($rowt = mysqli_fetch_assoc($resultt))
 { 
     $tCI[]= $rowt["CI"];  
     $tWx[]= $rowt["Wx"];
-    $tPoP[]=$rowt["PoP"];
   //print_r($rowt[0]);
 }
-
+$_SESSION["AT"]=$AT;
 $_SESSION["tCI"]=$tCI;
 $_SESSION["tWx"]=$tWx;
 $_SESSION["tPoP"]=$tPoP; 
 //echo '<script>window.history.go(-1);</script>';
-?>
+
+echo $AT[0];
+echo $AT[1];
+echo $AT[2];
+echo $AT[3];
 
