@@ -14,17 +14,17 @@ $selectvalue = isset($_POST['selcountry']) ? $_POST['selcountry'] : '';
 $_SESSION["selectId"] = $selectvalue;
 if (isset($_POST['selcountry'])) {
 //header("Location: Twoday.php");
- header("Location: liveweather.php");
-    
+   header("Location: liveweather.php");
+
 }
 $AT = $_SESSION["AT"];
 $tPoP = $_SESSION["tPoP"];
 //明天天氣
 $TomoPoP = $tPoP[0];
 $TomoPoP1 = $tPoP[1];
-$TomoAT= $AT[0];
-$TomoAT1= $AT[1];
-$TomoCI =  $_SESSION["tCI"];
+$TomoAT = $AT[0];
+$TomoAT1 = $AT[1];
+$TomoCI = $_SESSION["tCI"];
 $TomoWx = $_SESSION["tWx"];
 //
 $name = $_SESSION["name"];
@@ -35,21 +35,61 @@ $MaxT = $_SESSION["MaxT"];
 $CI = $_SESSION["CI"];
 //
 //後天天氣
-$sqlac= "select CI,Wx,count(*) as count from `twoday` where Time=DATE_ADD(`date`,INTERVAL 2 day) GROUP by CI,Wx order by count desc limit 2";
-$resultac= mysqli_query($link,$sqlac);
-$AcCI =array();
-$AcWx =array();
-$AcPoP=$tPoP[2];
-$AcPoP1=$tPoP[3];
+$sqlac = "select CI,Wx,count(*) as count from `twoday` where Time=DATE_ADD(`date`,INTERVAL 2 day) GROUP by CI,Wx order by count desc limit 2";
+$resultac = mysqli_query($link, $sqlac);
+$AcCI = array();
+$AcWx = array();
+$AcPoP = $tPoP[2];
+$AcPoP1 = $tPoP[3];
 $AcAT = $AT[2];
-$AcAT1 = $AT[3]; 
-while($rowac= mysqli_fetch_assoc($resultac))
-{
-    $AcCI[]= $rowac["CI"];  
-    $AcWx[]= $rowac["Wx"];
+$AcAT1 = $AT[3];
+while ($rowac = mysqli_fetch_assoc($resultac)) {
+    $AcCI[] = $rowac["CI"];
+    $AcWx[] = $rowac["Wx"];
 }
-//溫度
-//$sqlT= "select T from twoday where DATE_FORMAT(`Time`,'%Y-%m-%d')= DATE_ADD(`date`,INTERVAL 1 day)"
+//星期幾
+$sqlw = "select DISTINCT DATE_FORMAT(`fTime`,'%Y-%m-%d') as dtime from sevendays";
+$weeka = array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
+$week = array();
+$wresult = mysqli_query($link,$sqlw);
+while($wrow = mysqli_fetch_assoc($wresult))
+{
+    //echo $wrow["dtime"];
+    $week[] = $wrow["dtime"];
+}
+
+//一週預測
+$amsevenWxV = array();
+$pmsevenWxV = array();
+$amsevenWx= array();
+$pmsevenWx= array();
+$amsevenT= array();
+$pmsevenT= array();
+$amsevenCI= array();
+$pmsevenCI= array();
+$amsevenHum= array();
+$pmsevenHum= array();
+$sqlsevenam = "select Wx,T,CI,Hum,WxV from sevendays where DATE_FORMAT(`fTime`,'%H')=6";
+$sevenam = mysqli_query($link,$sqlsevenam);
+$sqlsevenpm="select Wx,T,CI,Hum,WxV from sevendays where DATE_FORMAT(`fTime`,'%H')=18";
+$sevenpm = mysqli_query($link,$sqlsevenpm);
+while ($rowam = mysqli_fetch_assoc($sevenam))
+{
+    $amsevenWxV[]= $rowam["WxV"];
+    $amsevenWx[]= $rowam["Wx"];
+    $amsevenT[]= $rowam["T"];
+    $amsevenCI[]= $rowam["CI"];
+    $amsevenHum[]= $rowam["Hum"];
+}
+
+while ($rowpm = mysqli_fetch_assoc($sevenpm))
+{
+    $pmsevenWxV[]= $rowpm["WxV"];
+    $pmsevenWx[] = $rowpm["Wx"];
+    $pmsevenT[] = $rowpm["T"];
+    $pmsevenCI[] = $rowpm["CI"];
+    $pmsevenHum[] = $rowpm["Hum"];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,41 +132,78 @@ while($rowac= mysqli_fetch_assoc($resultac))
 
 
 
-<div class= "row rowl1" style="background-color: #add2d9; min-height: 250px">
-    <span class="cnname" ><?= $name?></span><span class="cnow">即時天氣</span>
+<div class= "row rowl1 col-sm" style="background-color: #add2d9; min-height: 250px">
+    <span class="cnname" ><?=$name?></span><span class="cnow">即時天氣</span>
     <p><br><p>
-    <span class="cWx"><?="目前天氣：".$Wx?></span>
+    <span class="cWx"><?="目前天氣：" . $Wx?></span>
     <p><br><p>
-    <span class="cCI"><?= "舒適程度：".$CI?></span>
+    <span class="cCI"><?="舒適程度：" . $CI?></span>
     <hr style="border:1px solid blue; width:100%">
-    <span class="cMT"><?=$MinT."˚C~".$MaxT."˚C"?></span>
-    <span class="cPoP" style="color:<?php if($PoP>=70){echo "red";}else if($PoP<=30){echo "green";}elseif($PoP>30&&$PoP<=50){echo "blue";}else echo "yellow";?>">
-    <?="降雨率".$PoP."%"?></span>
+    <span class="cMT"><?=$MinT . "˚C~" . $MaxT . "˚C"?></span>
+    <span class="cPoP" style="color:<?php if ($PoP >= 70) {echo "red";} else if ($PoP <= 30) {echo "green";} elseif ($PoP > 30 && $PoP <= 50) {echo "blue";} else {
+    echo "yellow";
+}
+?>">
+    <?="降雨率" . $PoP . "%"?></span>
 </div>
 <div class= "row rowl2" style="background-color: #add2d9; min-height: 250px">
-    <span class="cnname" ><?= $name?></span><span class="cnow">明天天氣</span>
+    <span class="cnname" ><?=$name?></span><span class="cnow">明天天氣</span>
     <p><br><p>
-    <span class="cWx"><?php if($TomoWx[1]!= $TomoWx[0]){echo "天氣預報：".$TomoWx[0].$TomoWx[1];}else{echo "天氣預報：". $TomoWx[0];}?></span>
+    <span class="cWx"><?php if ($TomoWx[1] != $TomoWx[0]) {echo "天氣預報：" . $TomoWx[0] . $TomoWx[1];} else {echo "天氣預報：" . $TomoWx[0];}?></span>
     <p><br><p>
-    <span class="cCI"><?php if($TomoCI[1]!=""){ echo "舒適程度：".$TomoCI[0]."至".$TomoCI[1];}else{echo "舒適程度：".$TomoCI[0];}?></span>
+    <span class="cCI"><?php if ($TomoCI[1] != "") {echo "舒適程度：" . $TomoCI[0] . "至" . $TomoCI[1];} else {echo "舒適程度：" . $TomoCI[0];}?></span>
     <hr style="border:1px solid blue; width:100%">
-    <span class="cMT"><?=$TomoAT."˚C~".$TomoAT1."˚C"?></span>
-    <span class="cPoP2" style="color:<?php if($TomoPoP>=70){echo "red";}else if($TomoPoP<=30){echo "green";}elseif($TomoPoP>30&&$TomoPoP<=50){echo "blue";}else echo "yellow";?>">
-    <?="上午降雨率".$TomoPoP."%"?></span>
-    <span class="cPoP3"style="color:<?php if($TomoPoP1>=70){echo "red";}else if($TomoPoP1<=30){echo "green";}elseif($TomoPoP1>30&&$TomoPoP1<=50){echo "blue";}else echo "yellow";?>"><?= "下午降雨率".$TomoPoP1."%"?></span>
+    <span class="cMT"><?=$TomoAT . "˚C~" . $TomoAT1 . "˚C"?></span>
+    <span class="cPoP2" style="color:<?php if ($TomoPoP >= 70) {echo "red";} else if ($TomoPoP <= 30) {echo "green";} elseif ($TomoPoP > 30 && $TomoPoP <= 50) {echo "blue";} else {
+    echo "yellow";
+}
+?>">
+    <?="上午降雨率" . $TomoPoP . "%"?></span>
+    <span class="cPoP3"style="color:<?php if ($TomoPoP1 >= 70) {echo "red";} else if ($TomoPoP1 <= 30) {echo "green";} elseif ($TomoPoP1 > 30 && $TomoPoP1 <= 50) {echo "blue";} else {
+    echo "yellow";
+}
+?>"><?="下午降雨率" . $TomoPoP1 . "%"?></span>
 </div>
 <div class= "row rowl3" style="background-color: #add2d9; min-height: 250px">
-    <span class="cnname" ><?= $name?></span><span class="cnow">後天天氣</span>
+    <span class="cnname" ><?=$name?></span><span class="cnow">後天天氣</span>
     <p><br><p>
-    <span class="cWx"><?php if($AcWx[1]!= $AcWx[0]){echo "天氣預報：".$AcWx[0].$AcWx[1];}else{echo "天氣預報：". $AcWx[0];}?></span>
+    <span class="cWx"><?php if ($AcWx[1] != $AcWx[0]) {echo "天氣預報：" . $AcWx[0] . $AcWx[1];} else {echo "天氣預報：" . $AcWx[0];}?></span>
     <p><br><p>
-    <span class="cCI"><?php if($AcCI[1]!=""){ echo "舒適程度：".$AcCI[0]."至".$AcCI[1];}else{echo "舒適程度：".$AcCI[0];}?></span>
+    <span class="cCI"><?php if ($AcCI[1] != "") {echo "舒適程度：" . $AcCI[0] . "至" . $AcCI[1];} else {echo "舒適程度：" . $AcCI[0];}?></span>
     <hr style="border:1px solid blue; width:100%">
-    <span class="cMT"><?=$AcAT."˚C~".$AcAT1."˚C"?></span>
-    <span class="cPoP2" style="color:<?php if($AcPoP>=70){echo "red";}else if($AcPoP<=30){echo "green";}elseif($AcPoP>30&&$AcPoP<=50){echo "blue";}else echo "yellow";?>">
-    <?="上午降雨率".$AcPoP."%"?></span>
-    <span class="cPoP3"style="color:<?php if($AcPoP1>=70){echo "red";}else if($AcPoP1<=30){echo "green";}elseif($AcPoP1>30&&$AcPoP1<=50){echo "blue";}else echo "yellow";?>"><?= "下午降雨率".$AcPoP1."%"?></span>
+    <span class="cMT"><?=$AcAT . "˚C~" . $AcAT1 . "˚C"?></span>
+    <span class="cPoP2" style="color:<?php if ($AcPoP >= 70) {echo "red";} else if ($AcPoP <= 30) {echo "green";} elseif ($AcPoP > 30 && $AcPoP <= 50) {echo "blue";} else {
+    echo "yellow";
+}
+?>">
+    <?="上午降雨率" . $AcPoP . "%"?></span>
+    <span class="cPoP3"style="color:<?php if ($AcPoP1 >= 70) {echo "red";} else if ($AcPoP1 <= 30) {echo "green";} elseif ($AcPoP1 > 30 && $AcPoP1 <= 50) {echo "blue";} else {
+    echo "yellow";
+}
+?>"><?="下午降雨率" . $AcPoP1 . "%"?></span>
 </div>
+<div class="row" style="position:relative;bottom:50px;">
+    <?php for($i=0;$i<6;$i++){ ?>
+    <div class="col-2 bord" style="background-color: #AAFFEE; height: 600px">
+    <span class="datefont"><?= $weeka[date("w",strtotime("$week[$i]"))]."&emsp;&emsp;&emsp;上午"?></span>   
+    <hr style="border:1px solid; color:#444444;width:100%">
+    <img width="50" src="./image/<?=$amsevenWxV[$i]?>.png"/><br>
+    <span style="font-size:15px;">天氣狀況：<?=$amsevenWx[$i]."<br>"?></span>
+    <span style="font-size:15px;">溫度：<?=$amsevenT[$i]."<br>"?></span>
+    <span style="font-size:15px;">舒適度：<?=$amsevenCI[$i]."<br>"?></span>
+    <span style="font-size:15px;">相對濕度：<?=$amsevenHum[$i]?></span>
 
+    <hr class="hrs" style="border:1px solid; color:#444444;width:100%">
+    <div class= "pm">
+    <span class="datefont">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;下午</span>
+    <img width="50" src="./image/<?=$pmsevenWxV[$i]?>.png"/><br>
+    <span style="font-size:15px;">天氣狀況：<?=$pmsevenWx[$i]."<br>"?></span>
+    <span style="font-size:15px;">溫度：<?=$pmsevenT[$i]."<br>"?></span>
+    <span style="font-size:15px;">舒適度：<?=$pmsevenCI[$i]."<br>"?></span>
+    <span style="font-size:15px;">相對濕度：<?=$pmsevenHum[$i]?></span>
+    </div>
+    </div>
+    <?php } ?>
+</div>
 </body>
 </html>

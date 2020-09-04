@@ -2,6 +2,7 @@
 session_start();
 require("twoday.php");
 require "connect.php";
+require "sevendays.php";
 $countryId = $_SESSION["selectId"];
 $sql = "select countries from forecast where countryId = $countryId";
 $result = mysqli_query($link, $sql);
@@ -13,6 +14,8 @@ $url2 = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authoriza
 $json2 = file_get_contents($url2);
 $jslink2 = json_decode($json2, true);
 
+$_SESSION["incountry"]=$incountry;
+$_SESSION["key"] = $key;
 //echo $sql."<br>";
 // mysqli_query($link,$sql);
 // echo "天氣現象:(" . $b['weatherElement'][0]['elementName'] . ")" . "<br>"; //wx天氣現象

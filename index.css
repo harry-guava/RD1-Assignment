@@ -8,6 +8,7 @@
     position: absolute;
     top: 150px;
     width:33%;
+    left:1%
 }
 .pic
 {
@@ -19,15 +20,12 @@
     background-size: cover;
     left:0px;
 }
-.selcol
-{
-    
-}
+
 .rowl1
 {
     position: relative;
     top:188px;
-    left:1%;
+    left:2%;
     width:32%;
 }
 .rowl2
@@ -85,14 +83,14 @@
 .cPoP2
 {
     position: absolute;
-    right:30px;
+    left:50%;
     font-size:25px;
     bottom: 50px;
 }
 .cPoP3
 {
     position: absolute;
-    right:30px;
+    left:50%;
     font-size:25px;
     bottom: 20px;
 }
@@ -105,4 +103,23 @@
     color:#44406b;
     
 }
-
+.bord
+{
+    border-style:solid;
+    border-width: 2px;
+    border-color:#FF8888;
+}
+.datefont
+{
+    font-size:25px;
+}
+.hrs
+{
+    position: absolute;
+    bottom:50%;
+}
+.pm
+{
+    position: absolute;
+    bottom: 20%;
+}
