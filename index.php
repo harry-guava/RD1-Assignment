@@ -141,10 +141,7 @@ while ($rowpm = mysqli_fetch_assoc($sevenpm))
     <hr style="border:1px solid blue; width:100%">
     <span class="cMT"><?=$MinT . "˚C~" . $MaxT . "˚C"?></span>
     <span class="cPoP" style="color:<?php if ($PoP >= 70) {echo "red";} else if ($PoP <= 30) {echo "green";} elseif ($PoP > 30 && $PoP <= 50) {echo "blue";} else {
-    echo "yellow";
-}
-?>">
-    <?="降雨率" . $PoP . "%"?></span>
+    echo "yellow";}?>"><?="降雨率" . $PoP . "%"?></span>
 </div>
 <div class= "row rowl2" style="background-color: #add2d9; min-height: 250px">
     <span class="cnname" ><?=$name?></span><span class="cnow">明天天氣</span>
@@ -163,6 +160,7 @@ while ($rowpm = mysqli_fetch_assoc($sevenpm))
     echo "yellow";
 }
 ?>"><?="下午降雨率" . $TomoPoP1 . "%"?></span>
+<div><img src = "./imagec/<?=$selectvalue?>.jpg"/></div>
 </div>
 <div class= "row rowl3" style="background-color: #add2d9; min-height: 250px">
     <span class="cnname" ><?=$name?></span><span class="cnow">後天天氣</span>
@@ -192,10 +190,9 @@ while ($rowpm = mysqli_fetch_assoc($sevenpm))
     <span style="font-size:15px;">溫度：<?=$amsevenT[$i]."<br>"?></span>
     <span style="font-size:15px;">舒適度：<?=$amsevenCI[$i]."<br>"?></span>
     <span style="font-size:15px;">相對濕度：<?=$amsevenHum[$i]?></span>
-
     <hr class="hrs" style="border:1px solid; color:#444444;width:100%">
+    <span class="datefontpm">下午</span>
     <div class= "pm">
-    <span class="datefont">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;下午</span>
     <img width="50" src="./image/<?=$pmsevenWxV[$i]?>.png"/><br>
     <span style="font-size:15px;">天氣狀況：<?=$pmsevenWx[$i]."<br>"?></span>
     <span style="font-size:15px;">溫度：<?=$pmsevenT[$i]."<br>"?></span>
