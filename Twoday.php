@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "connect.php";
+
 $countryId = $_SESSION["selectId"];
 $incountry = $_SESSION["incountry"];
 $key = $_SESSION["key"];

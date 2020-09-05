@@ -11,12 +11,13 @@ $selectvalue = isset($_POST['selcountry']) ? $_POST['selcountry'] : '';
 //判斷下拉式是否有選擇
 //echo $_POST['selcountry'];
 //echo $selectvalue;
-$_SESSION["selectId"] = $selectvalue;
+
 if (isset($_POST['selcountry'])) {
 //header("Location: Twoday.php");
-   header("Location: liveweather.php");
-
+header("Location: liveweather.php");
+$_SESSION["selectId"] = $selectvalue;
 }
+
 $AT = $_SESSION["AT"];
 $tPoP = $_SESSION["tPoP"];
 //明天天氣
@@ -59,37 +60,17 @@ while($wrow = mysqli_fetch_assoc($wresult))
 }
 
 //一週預測
-$amsevenWxV = array();
-$pmsevenWxV = array();
-$amsevenWx= array();
-$pmsevenWx= array();
-$amsevenT= array();
-$pmsevenT= array();
-$amsevenCI= array();
-$pmsevenCI= array();
-$amsevenHum= array();
-$pmsevenHum= array();
-$sqlsevenam = "select Wx,T,CI,Hum,WxV from sevendays where DATE_FORMAT(`fTime`,'%H')=6";
-$sevenam = mysqli_query($link,$sqlsevenam);
-$sqlsevenpm="select Wx,T,CI,Hum,WxV from sevendays where DATE_FORMAT(`fTime`,'%H')=18";
-$sevenpm = mysqli_query($link,$sqlsevenpm);
-while ($rowam = mysqli_fetch_assoc($sevenam))
-{
-    $amsevenWxV[]= $rowam["WxV"];
-    $amsevenWx[]= $rowam["Wx"];
-    $amsevenT[]= $rowam["T"];
-    $amsevenCI[]= $rowam["CI"];
-    $amsevenHum[]= $rowam["Hum"];
-}
 
-while ($rowpm = mysqli_fetch_assoc($sevenpm))
-{
-    $pmsevenWxV[]= $rowpm["WxV"];
-    $pmsevenWx[] = $rowpm["Wx"];
-    $pmsevenT[] = $rowpm["T"];
-    $pmsevenCI[] = $rowpm["CI"];
-    $pmsevenHum[] = $rowpm["Hum"];
-}
+$amsevenWxV= $_SESSION["amWxV"];
+$amsevenWx= $_SESSION["amWx"];
+$amsevenT= $_SESSION["amT"];
+$amsevenCI= $_SESSION["amCI"];
+$amsevenHum=$_SESSION["amHum"];
+$pmsevenWxV= $_SESSION["pmWxV"];
+$pmsevenWx= $_SESSION["pmWx"];
+$pmsevenT= $_SESSION["pmT"];
+$pmsevenCI= $_SESSION["pmCI"];
+$pmsevenHum=$_SESSION["pmHum"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,8 +141,10 @@ while ($rowpm = mysqli_fetch_assoc($sevenpm))
     echo "yellow";
 }
 ?>"><?="下午降雨率" . $TomoPoP1 . "%"?></span>
-<div><img src = "./imagec/<?=$selectvalue?>.jpg"/></div>
 </div>
+<!--圖片-->
+<div class="imgs"><img src = "./imagec/<?=$_SESSION["selectId"]?>.jpg" height="100%" width="100%"/></div>
+
 <div class= "row rowl3" style="background-color: #add2d9; min-height: 250px">
     <span class="cnname" ><?=$name?></span><span class="cnow">後天天氣</span>
     <p><br><p>
@@ -180,7 +163,7 @@ while ($rowpm = mysqli_fetch_assoc($sevenpm))
 }
 ?>"><?="下午降雨率" . $AcPoP1 . "%"?></span>
 </div>
-<div class="row" style="position:relative;bottom:50px;">
+<div class="row" style="position:absolute;bottom:-110%;">
     <?php for($i=0;$i<6;$i++){ ?>
     <div class="col-2 bord" style="background-color: #AAFFEE; height: 600px">
     <span class="datefont"><?= $weeka[date("w",strtotime("$week[$i]"))]."&emsp;&emsp;&emsp;上午"?></span>   
