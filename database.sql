@@ -39,6 +39,14 @@ create table sevendays
    Wind varchar(20),
    Hum varchar(20)
 );
+create table rainview
+(
+    stationId varchar(20),
+    `site` varchar(20),
+    city varchar(20),
+    Rain float(6,2),
+    Rain24 float(8,2)
+);
    
 
 

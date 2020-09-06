@@ -100,15 +100,9 @@ $_SESSION["pmT"] = $pmsevenT;
 $_SESSION["pmCI"] = $pmsevenCI;
 $_SESSION["pmHum"] = $pmsevenHum;
 
-
-
 //print_r($S_SESSION["pmWxV"]);
 
     //    $cut = explode("。",$fweather[7]);
-    //    print_r($cut);
-
-
-
-
-
+    //    print_r($cut);.
+    //echo '<script>window.history.go(-1);</script>';
 ?>

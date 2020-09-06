@@ -1,7 +1,6 @@
 <?php
 session_start();
 require "connect.php";
-
 $countryId = $_SESSION["selectId"];
 $incountry = $_SESSION["incountry"];
 $key = $_SESSION["key"];
@@ -86,3 +85,4 @@ $_SESSION["tCI"] = $tCI;
 $_SESSION["tWx"] = $tWx;
 $_SESSION["tPoP"] = $tPoP;
 //echo '<script>window.history.go(-1);</script>';
+?>

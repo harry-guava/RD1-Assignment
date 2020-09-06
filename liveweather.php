@@ -1,8 +1,7 @@
 <?php
 session_start();
 require "connect.php";
-require("twoday.php");
-require "sevendays.php";
+
 $countryId = $_SESSION["selectId"];
 $sql = "select countries from forecast where countryId = $countryId";
 $result = mysqli_query($link, $sql);
@@ -57,7 +56,10 @@ $sql3= <<< selname
     $_SESSION["MinT"]  = $selcountry["MinT"];
     $_SESSION["MaxT"]  = $selcountry["MaxT"];
     $_SESSION["CI"]  = $selcountry["CI"];
+
+    include("Twoday.php");
+    include("sevendays.php");
     echo '<script>window.history.go(-1);</script>';
- 
+    //header("Location: index.php");
 
 ?>
