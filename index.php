@@ -227,7 +227,7 @@ $pmsevenHum = $_SESSION["pmHum"];
                                                             } else {
                                                                 echo "yellow";
                                                             }
-                                                            ?>"><?= "下午降雨率" . $AcPoP1 . "%" ?></span>
+                                                            ?>"><?php if(is_null($AcPoP1)){echo "尚未取得資料";}else{ echo "下午降雨率" . $AcPoP1 . "%" ;}?></span>
     </div>
 
 

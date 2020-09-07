@@ -15,21 +15,29 @@ $sqld = "truncate rainview";
 mysqli_query($link,$sqld);
 foreach($jslinkr['records']['location'] as $b)
 {
+  
     $site = $b['locationName'];
     $city = $b['parameter'][0]['parameterValue'];
+    //echo substr($countrynum["countries"],0,-1) ."<br>";
+    
     $stationId = $b['stationId'];
+    $subcity= substr($city,0,strlen('縣')*-1);
+    //echo $subcity."<br>";
     $Rain = $b['weatherElement'][1]['elementValue'];
     $Rain24= $b['weatherElement'][6]['elementValue'];
-    if($countrynum["countries"]==$city)
+    
+    if(substr($countrynum["countries"],0,strlen('縣')*-1)==$subcity)
     {
-     $sql = "insert into rainview (`stationId`,`site`,`city`,`Rain`,`Rain24`) values ('$stationId','$site','$city',$Rain,$Rain24)";
-     mysqli_query($link,$sql);
+    //echo $subcity;
+    //echo $subcity."br";
+      $sql = "insert into rainview (`stationId`,`site`,`city`,`Rain`,`Rain24`) values ('$stationId','$site','$subcity',$Rain,$Rain24)";
+      mysqli_query($link,$sql);
     }
      //echo $b['locationName'].",".$b['parameter'][0]['parameterValue']."<br>";
      //echo $site;
-}
-$showsql= "select * from rainview";
-$resultshow= mysqli_query($link,$showsql);
+ }
+     $showsql= "select * from rainview";
+     $resultshow= mysqli_query($link,$showsql);
 
 ?>
 <!DOCTYPE html>
@@ -55,7 +63,7 @@ $resultshow= mysqli_query($link,$showsql);
 <div class= "tb">
     <table class="table table-dark">
     <thead>
-      <tr style="color:purple">
+      <tr style="color:	#FFFFAA">
         <th>觀測站ID</th>
         <th>觀測站名</th>
         <th>縣市</th>
@@ -67,7 +75,7 @@ $resultshow= mysqli_query($link,$showsql);
     <?php while ($row= mysqli_fetch_assoc($resultshow))  {?>
       <tr>
         <td style="color:yellow"><?=$row["stationId"]?></td>
-        <td style="color:blue"><?=$row["site"]?></td>
+        <td style="color:	#97CBFF"><?=$row["site"]?></td>
         <td><?=$row["city"]?></td>
         <td style="color:<?php if($row["Rain"]<0)echo "red";else echo "green"?>"><?=$row["Rain"]?></td>
         <td style="color:<?php if($row["Rain24"]<0)echo "red";else echo "green"?>"><?=$row["Rain24"]?></td>
