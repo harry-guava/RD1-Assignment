@@ -77,8 +77,8 @@ foreach($jslinkr['records']['location'] as $b)
         <td style="color:yellow"><?=$row["stationId"]?></td>
         <td style="color:	#97CBFF"><?=$row["site"]?></td>
         <td><?=$row["city"]?></td>
-        <td style="color:<?php if($row["Rain"]<0)echo "red";else echo "green"?>"><?=$row["Rain"]?></td>
-        <td style="color:<?php if($row["Rain24"]<0)echo "red";else echo "green"?>"><?=$row["Rain24"]?></td>
+        <td style="color:<?php if($row["Rain"]>100)echo "red";?>"><?php if($row["Rain"]<0){echo "尚未取得資料";}else {echo $row["Rain"];}?></td>
+        <td style="color:<?php if($row["Rain24"]>350)echo "red";?>"><?php if($row["Rain24"]<0){echo "尚未取得資料";}else {echo $row["Rain24"];}?></td>
       </tr>
     <?php } ?>
     </tbody>
